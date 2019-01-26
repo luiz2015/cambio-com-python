@@ -1,9 +1,15 @@
 import requests
 import json
+#para exportar CSV
+import pandas as pd
 
 def main():
-    cambio_dollar(None)
-    cambio_euro(None)
+    #adicionando uma variavel de retorno, nas funcoes
+    dollar = cambio_dollar(None)
+    print ("%.2f" %dollar)
+    euro = cambio_euro(None)
+    print ("%.2f" %euro)
+    exportar_csv(dollar, euro)
 
 def cambio_dollar(url):
     #Se o usuário não passar nenhuma URL, vai entrar no IF e será atribuida
@@ -17,7 +23,9 @@ def cambio_dollar(url):
         taxa_usd = dados['rates']['USD']
         taxa_brl = dados['rates']['BRL']
         real = taxa_brl/taxa_usd
-        print("O dólar está custando %.2f reais " % real)
+        #o return eh usado para retornar a variavel para o local onde foi solicitado
+        real=round(real, 2)
+        return real
     else:
         print("Site com algum problema!")
 
@@ -31,9 +39,18 @@ def cambio_euro(url):
         taxa_eur = dados['rates']['EUR']
         taxa_brl = dados['rates']['BRL']
         real = taxa_brl/taxa_eur
-        print("O euro está custando %.2f reais " % real)
+        real=round(real, 2)
+        return real
     else:
         print("Site com algum problema!")
+
+#Exportar para CSV, nova função
+def exportar_csv(dollar, euro):
+    linha = {'Dollar - USD': [dollar], 'Euro - EUR': [euro]}
+    frame = pd.DataFrame(linha, columns = ['Dollar - USD', 'Euro - EUR'])
+    frame.to_csv("moeda.csv")
+    print('Dados salvo na tabela!')
+
 
 #Pede para que o programa execute a nossa função main
 if __name__ == '__main__':
