@@ -5,17 +5,13 @@ import pandas as pd
 
 def main():
     #adicionando uma variavel de retorno, nas funcoes
-    dollar = cambio_dollar(None)
+    dollar = cambio_dollar()
     print ("%.2f" %dollar)
-    euro = cambio_euro(None)
+    euro = cambio_euro()
     print ("%.2f" %euro)
     exportar_csv(dollar, euro)
 
-def cambio_dollar(url):
-    #Se o usuário não passar nenhuma URL, vai entrar no IF e será atribuida
-    #a variável URL o endereço abaixo
-    if url is None:
-        url = "http://data.fixer.io/api/latest?access_key=65c2c5494f5a965219e5a0d3568300e4&format=1"
+def cambio_dollar(url = "http://data.fixer.io/api/latest?access_key=65c2c5494f5a965219e5a0d3568300e4&format=1"):
     response = requests.get(url)
     if response.status_code == 200:
         print("Conseguiu se conectar...")
@@ -29,9 +25,7 @@ def cambio_dollar(url):
     else:
         print("Site com algum problema!")
 
-def cambio_euro(url):
-    if url is None:
-        url = "http://data.fixer.io/api/latest?access_key=65c2c5494f5a965219e5a0d3568300e4&format=1"
+def cambio_euro(url = "http://data.fixer.io/api/latest?access_key=65c2c5494f5a965219e5a0d3568300e4&format=1"):
     response = requests.get(url)
     if response.status_code == 200:
         print("Conseguiu se conectar...")
